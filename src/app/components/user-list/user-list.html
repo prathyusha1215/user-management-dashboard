@@ -1,0 +1,124 @@
+<div class="container">
+  <header class="header">
+    <h1>User Management Dashboard</h1>
+    <p class="subtitle">Manage and view user information</p>
+  </header>
+
+  <div class="controls">
+    <div class="search-box">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search by name or email..."
+        [value]="searchTerm"
+        (input)="onSearchChange($any($event.target).value)"
+      />
+    </div>
+
+    <div class="filter-box">
+      <select
+        class="city-select"
+        [(ngModel)]="selectedCity"
+        (change)="onCityChange(selectedCity)"
+      >
+        <option value="">All Cities</option>
+        <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+      </select>
+    </div>
+
+    <button class="btn btn-secondary" (click)="clearFilters()" *ngIf="searchTerm || selectedCity">
+      Clear Filters
+    </button>
+
+    <button class="btn btn-secondary" (click)="toggleViewMode()">
+      <span *ngIf="viewMode === 'card'">📋 Table View</span>
+      <span *ngIf="viewMode === 'table'">🎴 Card View</span>
+    </button>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading users...</p>
+  </div>
+
+  <div *ngIf="error && !isLoading" class="error-container">
+    <p>{{ error }}</p>
+    <button class="btn btn-primary" (click)="loadUsers()">Retry</button>
+  </div>
+
+  <div *ngIf="!isLoading && !error && filteredUsers.length === 0" class="empty-container">
+    <p>No users found matching your criteria</p>
+    <button class="btn btn-secondary" (click)="clearFilters()">Clear Filters</button>
+  </div>
+
+  <div *ngIf="!isLoading && !error && filteredUsers.length > 0 && viewMode === 'card'" class="user-grid">
+    <div *ngFor="let user of paginatedUsers" class="user-card" (click)="viewUserDetails(user.id)">
+      <div class="user-avatar">{{ getInitials(user.name) }}</div>
+      <div class="user-info">
+        <h3 class="user-name">{{ user.name }}</h3>
+        <p class="user-username">@{{ user.username }}</p>
+        <div class="user-details">
+          <div class="detail-item">
+            <span>📧 {{ user.email }}</span>
+          </div>
+          <div class="detail-item">
+            <span>📞 {{ user.phone }}</span>
+          </div>
+          <div class="detail-item">
+            <span>📍 {{ user.address.city }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && !error && filteredUsers.length > 0 && viewMode === 'table'" class="table-container">
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>City</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of paginatedUsers" (click)="viewUserDetails(user.id)">
+          <td>
+            <div class="table-user-info">
+              <div class="table-avatar">{{ getInitials(user.name) }}</div>
+              <div>
+                <div class="table-name">{{ user.name }}</div>
+                <div class="table-username">@{{ user.username }}</div>
+              </div>
+            </div>
+          </td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.address.city }}</td>
+          <td>
+            <button class="btn-action" (click)="viewUserDetails(user.id); $event.stopPropagation()">
+              View
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!isLoading && !error && filteredUsers.length > 0" class="pagination">
+    <button class="pagination-btn" [disabled]="currentPage === 1" (click)="previousPage()">
+      ← Previous
+    </button>
+    
+    <div class="pagination-info">
+      Page {{ currentPage }} of {{ totalPages }}
+      <span class="user-count">({{ filteredUsers.length }} users)</span>
+    </div>
+    
+    <button class="pagination-btn" [disabled]="currentPage === totalPages" (click)="nextPage()">
+      Next →
+    </button>
+  </div>
+</div>
