@@ -1,0 +1,95 @@
+<div class="container">
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading user details...</p>
+  </div>
+
+  <div *ngIf="error && !isLoading" class="error-container">
+    <p>{{ error }}</p>
+    <button class="btn btn-primary" (click)="goBack()">Back to Users</button>
+  </div>
+
+  <div *ngIf="user && !isLoading && !error" class="detail-container">
+    <div class="detail-header">
+      <button class="btn-back" (click)="goBack()">
+        ← Back to Users
+      </button>
+    </div>
+
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-avatar">{{ getInitials(user.name) }}</div>
+        <div class="profile-info">
+          <h1 class="profile-name">{{ user.name }}</h1>
+          <p class="profile-username">@{{ user.username }}</p>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h2 class="section-title">Contact Information</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Email</div>
+            <div class="info-value">
+              <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-label">Phone</div>
+            <div class="info-value">
+              <a href="tel:{{ formatPhone(user.phone) }}">{{ user.phone }}</a>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-label">Website</div>
+            <div class="info-value">
+              <a href="https://{{ user.website }}" target="_blank">{{ user.website }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h2 class="section-title">Address</h2>
+        <div class="info-grid">
+          <div class="info-item full-width">
+            <div class="info-label">Full Address</div>
+            <div class="info-value">{{ getFullAddress() }}</div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-label">City</div>
+            <div class="info-value">{{ user.address.city }}</div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-label">Zipcode</div>
+            <div class="info-value">{{ user.address.zipcode }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h2 class="section-title">Company</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Company Name</div>
+            <div class="info-value">{{ user.company.name }}</div>
+          </div>
+
+          <div class="info-item full-width">
+            <div class="info-label">Catchphrase</div>
+            <div class="info-value">{{ user.company.catchPhrase }}</div>
+          </div>
+
+          <div class="info-item full-width">
+            <div class="info-label">Business</div>
+            <div class="info-value">{{ user.company.bs }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
