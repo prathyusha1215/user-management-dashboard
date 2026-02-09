@@ -2,39 +2,76 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
 
-## Development server
+## Overview
+This project showcases a complete user management workflow including listing users, searching, filtering, viewing details, routing, and error handling.  
+It follows **Angular standalone architecture**, **strict TypeScript**, and **clean service-based design**.
 
-To start a local development server, run:
+---
 
+## Features
+- User list (card & table views)
+- Search by name or email (debounced)
+- City-based filtering
+- User detail page with full information
+- Pagination (6 users per page)
+- Dark mode with persistence
+- Loading & error handling
+- Responsive design
+- In-memory caching
+- Accessible & semantic HTML
+
+---
+
+## Tech Stack
+- Angular 19
+- TypeScript 5.6
+- RxJS 7.8
+- Angular Router
+- HttpClient
+- CSS Variables
+- JSONPlaceholder API
+
+---
+
+## Installation & Run
 ```bash
-ng serve
+git clone https://github.com/your-username/user-management-dashboard.git
+cd user-management-dashboard
+npm install
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+App runs at: http://localhost:4200
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+## Project Structure
+```
+src/
+├── app/components (user-list, user-detail)
+├── app/services (user.service.ts)
+├── app/models (user.ts)
+├── app.routes.ts
+├── styles.css
+└── main.ts
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
+## Key Highlights
+- Standalone Angular components
+- RxJS-based debounced search
+- Service-based API architecture
+- Strict TypeScript (no `any`)
+- Clean routing & state handling
+
+---
+
+## Build
 ```bash
-ng generate --help
+ng build --configuration production
 ```
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
 ## Running unit tests
 
